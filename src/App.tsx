@@ -13,7 +13,12 @@ import {
   Zap,
   Menu,
   X,
-  ArrowRight
+  ArrowRight,
+  Star,
+  Sparkles,
+  Search,
+  LogIn,
+  Cursor
 } from 'lucide-react';
 
 // --- Types ---
@@ -28,24 +33,48 @@ interface SectionProps {
   title: string;
   children: React.ReactNode;
   className?: string;
+  subtitle?: string;
 }
+
+// --- Icons / Decorative Components ---
+
+const Burst = ({ className = "" }: { className?: string }) => (
+  <div className={`burst bg-brand absolute -z-10 animate-pulse ${className}`} style={{ width: '150px', height: '150px' }} />
+);
+
+const StudentIcon = ({ type = "boy" }: { type?: "boy" | "girl" | "nerd" }) => {
+  const icons = {
+    boy: "👦",
+    girl: "👧",
+    nerd: "🤓"
+  };
+  return (
+    <div className="w-24 h-24 bg-sky-100 rounded-full flex items-center justify-center text-5xl student-border student-shadow-sm">
+      {icons[type]}
+    </div>
+  );
+};
 
 // --- Components ---
 
-const Section = ({ id, title, children, className = "" }: SectionProps) => (
-  <section id={id} className={`py-24 px-6 md:px-12 lg:px-24 ${className}`}>
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="max-w-6xl mx-auto"
-    >
-      <h2 className="font-serif text-4xl md:text-5xl font-bold mb-12 text-slate-900 tracking-tight">
-        {title}
-      </h2>
+const Section = ({ id, title, subtitle, children, className = "" }: SectionProps) => (
+  <section id={id} className={`py-20 px-6 md:px-12 relative ${className}`}>
+    <div className="max-w-6xl mx-auto">
+      <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="inline-block px-4 py-1.5 bg-brand student-border rounded-full font-bold text-xs uppercase tracking-widest mb-4"
+        >
+          {subtitle || "Kiến thức bổ ích"}
+        </motion.div>
+        <h2 className="font-display text-4xl md:text-5xl font-black text-navy leading-tight">
+          {title}
+        </h2>
+      </div>
       {children}
-    </motion.div>
+    </div>
   </section>
 );
 
@@ -53,28 +82,28 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navItems = [
     { name: 'Giới thiệu', href: '#intro' },
-    { name: 'Lợi ích & Tác hại', href: '#pros-cons' },
-    { name: 'Hướng dẫn', href: '#guide' },
-    { name: 'Trắc nghiệm', href: '#quiz' },
+    { name: 'Lợi ích', href: '#pros-cons' },
+    { name: 'Mẹo dùng', href: '#guide' },
+    { name: 'Thử thách', href: '#quiz' },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b-4 border-navy">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="p-2 bg-indigo-600 rounded-lg">
-            <Brain className="w-6 h-6 text-white" />
+        <div className="flex items-center gap-3">
+          <div className="p-1.5 bg-brand student-border rounded-xl">
+            <Brain className="w-6 h-6 text-navy" />
           </div>
-          <span className="font-bold text-xl tracking-tight text-slate-900 border-l-2 border-slate-200 pl-3">AI HANDBOOK</span>
+          <span className="font-display font-black text-xl tracking-tight text-navy uppercase">AI FOR STUDENTS</span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex gap-8">
+        <div className="hidden md:flex gap-10 items-center">
           {navItems.map((item) => (
             <a 
               key={item.href} 
               href={item.href} 
-              className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
+              className="text-sm font-black text-navy uppercase tracking-widest hover:text-brand-dark transition-colors"
             >
               {item.name}
             </a>
@@ -94,14 +123,14 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
+            className="md:hidden bg-white border-b-4 border-navy overflow-hidden"
           >
-            <div className="px-6 py-4 flex flex-col gap-4">
+            <div className="px-6 py-8 flex flex-col gap-6">
               {navItems.map((item) => (
                 <a 
                   key={item.href} 
                   href={item.href} 
-                  className="text-base font-medium text-slate-600"
+                  className="text-xl font-black text-navy uppercase"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
@@ -119,51 +148,31 @@ const AIQuiz = () => {
   const questions: Question[] = [
     {
       id: 1,
-      text: "Bạn sử dụng AI với tần suất như thế nào trong công việc/học tập?",
+      text: "Bạn thường dùng AI để làm gì nhất nè?",
       options: [
-        { text: "Hầu như mỗi ngày", points: 10 },
-        { text: "Vài lần một tuần", points: 7 },
-        { text: "Thỉnh thoảng mới dùng", points: 4 },
-        { text: "Chưa bao giờ sử dụng", points: 0 },
+        { text: "Giải bài tập khó nhằn", points: 10 },
+        { text: "Viết văn, làm thơ", points: 8 },
+        { text: "Hỏi đáp kiến thức linh tinh", points: 6 },
+        { text: "Chưa thử bao giờ luôn", points: 0 },
       ]
     },
     {
       id: 2,
-      text: "Khi AI đưa ra một câu trả lời, bạn thường làm gì?",
+      text: "Khi AI trả lời, bạn có kiểm tra lại không?",
       options: [
-        { text: "Tin tưởng tuyệt đối và dùng ngay", points: 10 },
-        { text: "Kiểm tra sơ qua rồi dùng", points: 7 },
-        { text: "Luôn đối chiếu với các nguồn uy tín khác", points: 4 },
-        { text: "Dùng AI chỉ để lấy ý tưởng ban đầu", points: 2 },
+        { text: "Tin luôn, AI thông minh mà!", points: 10 },
+        { text: "Kiểm tra sơ sơ cho chắc", points: 6 },
+        { text: "Luôn tra cứu lại sách giáo khoa", points: 3 },
+        { text: "Dùng để tham khảo ý tưởng thôi", points: 2 },
       ]
     },
     {
       id: 3,
-      text: "Bạn đã từng thử yêu cầu AI giải quyết các vấn đề phức tạp chưa?",
+      text: "Bạn có biết AI có thể 'chém gió' sai sự thật không?",
       options: [
-        { text: "Thường xuyên, AI là trợ lý chính", points: 10 },
-        { text: "Có, nhưng chỉ với một số việc", points: 7 },
-        { text: "Rất hiếm khi", points: 3 },
-        { text: "Chưa từng", points: 0 },
-      ]
-    },
-    {
-      id: 4,
-      text: "Bạn có biết về các rủi ro bảo mật thông tin khi dùng AI không?",
-      options: [
-        { text: "Biết rất rõ và luôn cẩn thận", points: 2 },
-        { text: "Có nghe qua nhưng không để ý lắm", points: 7 },
-        { text: "Hoàn toàn không biết", points: 10 },
-      ]
-    },
-    {
-      id: 5,
-      text: "Bạn cảm thấy thế nào về tương lai khi AI ngày càng phát triển?",
-      options: [
-        { text: "Hào hứng và sẵn sàng thích nghi", points: 10 },
-        { text: "Hơi lo lắng nhưng vẫn tìm hiểu", points: 7 },
-        { text: "Sợ hãi và muốn né tránh", points: 3 },
-        { text: "Không quan tâm", points: 0 },
+        { text: "Có biết, nên mình rất cẩn thận", points: 2 },
+        { text: "Hơi hơi, nghe loáng thoáng đâu đó", points: 6 },
+        { text: "Ủa, AI mà cũng sai được hả?", points: 10 },
       ]
     }
   ];
@@ -184,78 +193,69 @@ const AIQuiz = () => {
     }
   };
 
-  const resetQuiz = () => {
-    setCurrentStep(0);
-    setAnswers([]);
-    setShowResult(false);
-  };
-
   const getEvaluation = () => {
-    if (totalScore >= 40) return {
-      title: "Người dẫn đầu xu hướng (Trendsetter)",
-      desc: "Bạn là một người am hiểu và sử dụng AI cực kỳ hiệu quả. Hãy tiếp tục duy trì sự tỉnh táo để không quá phụ thuộc nhé!",
-      color: "text-indigo-600"
-    };
     if (totalScore >= 25) return {
-      title: "Cộng tác viên tiềm năng (Explorer)",
-      desc: "Bạn đang khám phá AI một cách đúng hướng. Hãy tìm hiểu thêm các kỹ thuật nhắc (prompt) để tối ưu công việc hơn.",
-      color: "text-emerald-600"
+      title: "Siêu nhân Công nghệ 🚀",
+      desc: "Bạn dùng AI như một trợ lý đắc lực luôn! Nhưng hãy nhớ tự suy nghĩ nhiều hơn để não bộ phát triển nhé.",
+      color: "bg-brand"
+    };
+    if (totalScore >= 15) return {
+      title: "Nhà Thám hiểm Tài năng 🕵️",
+      desc: "Bạn đang khám phá AI rất đúng cách đó. Hãy học thêm các mẹo đặt câu hỏi để AI giúp bạn tốt hơn nha.",
+      color: "bg-sky-200"
     };
     return {
-      title: "Người mới bắt đầu (Beginner)",
-      desc: "Bạn chưa thực sự tin tưởng hoặc chưa biết cách tận dụng AI. Đừng lo, hãy bắt đầu từ những việc nhỏ nhất!",
-      color: "text-amber-600"
+      title: "Người mới Tò mò 🌱",
+      desc: "AI còn khá mới mẻ với bạn. Đừng ngại thử bắt đầu bằng việc nhờ AI giải thích một công thức toán khó xem sao!",
+      color: "bg-amber-200"
     };
   };
 
   return (
-    <div className="bg-slate-50 rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
+    <div className="bg-white student-border rounded-[2.5rem] p-8 md:p-12 student-shadow relative overflow-hidden">
+      <div className="absolute top-0 right-0 p-6 flex gap-2">
+        <div className="w-3 h-3 rounded-full bg-rose-400 border border-navy" />
+        <div className="w-3 h-3 rounded-full bg-amber-400 border border-navy" />
+        <div className="w-3 h-3 rounded-full bg-emerald-400 border border-navy" />
+      </div>
+      
       {!showResult ? (
         <div>
-          <div className="flex justify-between items-end mb-8">
-            <div className="flex-1">
-              <span className="text-sm font-bold text-indigo-600 uppercase tracking-widest">Câu hỏi {currentStep + 1}/{questions.length}</span>
-              <h3 className="text-2xl font-bold text-slate-900 mt-2 leading-tight">{questions[currentStep].text}</h3>
-            </div>
-            <BarChart3 className="text-slate-300 w-12 h-12 hidden md:block ml-4" />
+          <div className="mb-10">
+            <span className="inline-block px-3 py-1 bg-sky-100 rounded-full text-xs font-bold border border-navy mb-4">CÂU HỎI {currentStep + 1}/{questions.length}</span>
+            <h3 className="text-3xl font-black text-navy leading-tight">{questions[currentStep].text}</h3>
           </div>
           <div className="grid gap-4">
             {questions[currentStep].options.map((opt, i) => (
               <motion.button
                 key={i}
-                whileHover={{ x: 10 }}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleAnswer(opt.points)}
-                className="w-full text-left p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition-all group flex justify-between items-center"
+                className="w-full text-left p-6 bg-slate-50 student-border rounded-2xl hover:bg-brand transition-all flex items-center justify-between group"
               >
-                <span className="font-medium text-slate-700 group-hover:text-indigo-900">{opt.text}</span>
-                <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-indigo-500" />
+                <span className="font-bold text-navy">{opt.text}</span>
+                <div className="w-8 h-8 rounded-lg bg-white border-2 border-navy group-hover:bg-navy group-hover:text-white flex items-center justify-center transition-colors">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
               </motion.button>
             ))}
           </div>
         </div>
       ) : (
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-8"
-        >
-          <div className="inline-flex p-4 bg-indigo-100 rounded-full mb-6">
-            <CheckCircle2 className="w-12 h-12 text-indigo-600" />
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-6">
+          <div className="text-6xl mb-6">🏆</div>
+          <h3 className="text-3xl font-black mb-4">BẠN LÀ...</h3>
+          <div className={`inline-block p-8 rounded-3xl student-border ${getEvaluation().color} mb-8`}>
+            <h4 className="text-2xl font-black mb-2 uppercase tracking-tight">{getEvaluation().title}</h4>
+            <p className="font-bold text-navy/70 leading-relaxed max-w-sm mx-auto">{getEvaluation().desc}</p>
           </div>
-          <h3 className="text-3xl font-bold text-slate-900 mb-2">Kết quả của bạn</h3>
-          <p className="text-slate-500 mb-4">Tổng điểm: <span className="font-bold text-slate-900">{totalScore}</span></p>
-          
-          <div className="max-w-md mx-auto mb-10 p-8 bg-white rounded-2xl shadow-xl shadow-indigo-100/50 border border-slate-100">
-            <h4 className={`text-2xl font-bold mb-4 ${getEvaluation().color}`}>{getEvaluation().title}</h4>
-            <p className="text-slate-600 leading-relaxed">{getEvaluation().desc}</p>
-          </div>
-          
+          <br />
           <button 
-            onClick={resetQuiz}
-            className="px-8 py-3 bg-slate-900 text-white rounded-full font-bold hover:bg-slate-800 transition-colors"
+            onClick={() => { setCurrentStep(0); setAnswers([]); setShowResult(false); }}
+            className="px-8 py-4 bg-brand student-border rounded-2xl font-black student-shadow-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
           >
-            Làm lại trắc nghiệm
+            THỬ LẠI LẦN NỮA
           </button>
         </motion.div>
       )}
@@ -265,288 +265,255 @@ const AIQuiz = () => {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900 relative">
-      {/* Background Atmosphere */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-50/50 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[0%] right-[-5%] w-[40%] h-[40%] bg-sky-50/50 rounded-full blur-[100px]" />
-      </div>
-
+    <div className="min-h-screen font-sans">
       <Navbar />
 
-      {/* Hero Section - Revamped */}
-      <section id="header" className="relative pt-40 pb-32 md:pt-60 md:pb-48 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative">
-          {/* Floating Data Chips - Fills the "Empty" space */}
-          <div className="absolute inset-0 pointer-events-none hidden lg:block">
+      {/* Hero Section - Matching the student handbook style */}
+      <section className="pt-32 pb-20 px-6 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto flex flex-col items-center">
+          
+          <div className="relative w-full max-w-5xl">
+            {/* Background elements */}
+            <Burst className="top-10 left-[-100px] opacity-40 rotate-[15deg]" />
+            <div className="absolute -bottom-10 -right-20 w-80 h-80 bg-sky-200 rounded-[30%] rotate-[-15deg] -z-20 opacity-50" />
+            
+            {/* The Main "Window" Card */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="absolute top-0 right-[15%] glass px-6 py-4 rounded-2xl shadow-xl shadow-indigo-100/50 animate-float flex items-center gap-3"
-            >
-              <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white">
-                <Brain className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest leading-none mb-1">Neural Net</p>
-                <p className="text-sm font-bold text-slate-800">Processing Data...</p>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7, duration: 1 }}
-              className="absolute bottom-10 left-[5%] glass px-6 py-4 rounded-full shadow-xl shadow-sky-100/50 animate-float-delayed flex items-center gap-3"
-            >
-              <Zap className="w-5 h-5 text-amber-500" />
-              <span className="text-sm font-bold text-slate-700">Real-time Analysis</span>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.9, duration: 1 }}
-              className="absolute top-40 left-[10%] glass-dark px-5 py-3 rounded-2xl shadow-2xl animate-float-slow text-white flex flex-col gap-1"
-            >
-              <div className="flex gap-1">
-                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                <div className="w-2 h-2 bg-slate-700 rounded-full" />
-                <div className="w-2 h-2 bg-slate-700 rounded-full" />
-              </div>
-              <p className="text-[10px] font-mono tracking-tighter opacity-70">GEN_COMPLETED v4.0</p>
-            </motion.div>
-          </div>
-
-          <div className="flex flex-col items-center text-center max-w-5xl mx-auto relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              className="bg-white student-border rounded-[3rem] p-8 md:p-16 student-shadow relative"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-[0.2em] mb-10">
-                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
-                <span>AI Handbook Project 2024</span>
+              {/* Card Header with tabs/buttons style */}
+              <div className="absolute top-0 left-0 right-0 h-16 bg-brand border-b-4 border-navy rounded-t-[2.8rem] flex items-center justify-between px-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-navy rounded-xl flex items-center justify-center text-brand">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <span className="font-black text-navy uppercase tracking-widest text-sm">CHƯƠNG TRÌNH ONLINE</span>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-navy flex items-center justify-center font-black text-xs">X</div>
+                </div>
               </div>
-              <h1 className="font-serif text-7xl md:text-9xl font-bold leading-[0.85] mb-10 text-slate-900 tracking-tightest">
-                Tương lai <br /> 
-                <span className="text-indigo-600 italic">bắt đầu</span> từ đây.
-              </h1>
-              <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-12 max-w-2xl mx-auto font-light">
-                Trí tuệ nhân tạo không thay thế con người, nhưng con người <span className="text-slate-900 font-medium">biết sử dụng AI</span> sẽ thay thế những người không biết.
-              </p>
-              <div className="flex flex-wrap justify-center gap-6">
-                <a href="#intro" className="px-10 py-5 bg-indigo-600 text-white rounded-2xl font-bold shadow-2xl shadow-indigo-200 hover:bg-slate-900 hover:-translate-y-1 transition-all flex items-center gap-3 group">
-                  Khám phá ngay
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <a href="#quiz" className="px-10 py-5 bg-white text-slate-900 border border-slate-200 rounded-2xl font-bold hover:border-indigo-600 hover:-translate-y-1 transition-all">
-                  Làm trắc nghiệm
-                </a>
+
+              <div className="mt-12 grid md:grid-cols-2 gap-12 items-center">
+                <div className="text-left">
+                  <h1 className="font-display font-black text-6xl md:text-7xl text-navy leading-[0.9] mb-8 uppercase tracking-tighter">
+                    Học sinh <br/>
+                    <span className="text-brand student-border px-4 py-1.5 inline-block bg-navy rounded-2xl rotate-[-2deg] my-2">LÀM CHỦ</span> <br/>
+                    AI 2026
+                  </h1>
+                  
+                  <div className="bg-brand inline-block px-4 py-2 student-border rounded-xl font-bold mb-10 transform rotate-[1deg]">
+                    DÀNH CHO HỌC SINH VIỆT NAM 🇻🇳
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    <a href="#intro" className="px-8 py-4 bg-navy text-brand rounded-2xl font-black text-lg hover:scale-105 transition-transform flex items-center gap-2">
+                      Khám phá ngay
+                      <ChevronRight className="w-6 h-6" />
+                    </a>
+                    <a href="#guide" className="px-8 py-4 bg-brand student-border rounded-2xl font-black text-lg student-shadow-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all">
+                      Xem bí kíp
+                    </a>
+                  </div>
+                </div>
+
+                <div className="relative group">
+                  {/* Stylized Student Illustration Container */}
+                  <div className="grid grid-cols-2 gap-4 relative z-10">
+                    <div className="flex flex-col gap-4">
+                      <div className="p-4 bg-sky-100 student-border rounded-3xl animate-float">
+                        <StudentIcon type="nerd" />
+                      </div>
+                      <div className="p-4 bg-amber-100 student-border rounded-3xl animate-float-delayed">
+                        <StudentIcon type="boy" />
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="p-4 bg-emerald-100 student-border rounded-[3rem] animate-float-slow">
+                        <StudentIcon type="girl" />
+                      </div>
+                    </div>
+                  </div>
+                  {/* Speech bubbles and decorative icons */}
+                  <div className="absolute top-0 right-0 bg-white student-border p-3 rounded-2xl text-2xl student-shadow-sm -translate-y-1/2 translate-x-1/2 rotate-12">
+                    💬
+                  </div>
+                  <div className="absolute bottom-0 left-0 bg-brand student-border p-3 rounded-full text-2xl shadow-sm translate-y-1/4 -translate-x-1/4 animate-bounce">
+                    ⚡️
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* 1. Giới thiệu về AI */}
-      <Section id="intro" title="Trí tuệ nhân tạo là gì?">
-        <div className="grid md:grid-cols-3 gap-12">
-          <div className="md:col-span-2">
-            <p className="text-xl text-slate-600 leading-relaxed mb-8">
-              Trí tuệ nhân tạo (AI - Artificial Intelligence) là khả năng của một hệ thống máy tính có thể mô phỏng các quá trình suy nghĩ và học tập của con người. 
-              Nó không chỉ là những dòng code khô khan, mà là sự tổng hợp của toán học, ngôn ngữ và logic để giải quyết các vấn đề phức tạp.
+      {/* Intro Section - Cute Icons and Cards */}
+      <Section id="intro" title="AI LÀ GÌ VẬY CÀ?" subtitle="BẬT MÍ KIẾN THỨC">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <p className="text-xl font-bold text-navy/80 leading-relaxed">
+              Hãy tưởng tượng bạn có một "người bạn robot" siêu thông minh trong máy tính. Người bạn này có thể học hỏi rất nhanh, hiểu ý bạn nói và giúp bạn làm bài tập, vẽ tranh hay dịch tiếng Anh.
             </p>
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="flex gap-4">
+              <div className="w-16 h-16 bg-brand student-border rounded-2xl flex items-center justify-center text-3xl">🤖</div>
+              <div className="w-16 h-16 bg-sky-200 student-border rounded-2xl flex items-center justify-center text-3xl">✨</div>
+              <div className="w-16 h-16 bg-amber-200 student-border rounded-2xl flex items-center justify-center text-3xl">📝</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            {[
+              { icon: "🧠", title: "Máy học", desc: "Máy tự tìm ra các quy tắc." },
+              { icon: "🗣️", title: "Ngôn ngữ", desc: "Trò chuyện như người thật." },
+              { icon: "👁️", title: "Thị giác", desc: "Nhìn và biết cái gì là cái gì." },
+              { icon: "🚀", title: "Tương lai", desc: "Làm mọi việc siêu nhanh." },
+            ].map((item, i) => (
+              <div key={i} className="bg-white student-border rounded-[2rem] p-6 student-shadow-sm hover:-translate-y-1 transition-all">
+                <div className="text-3xl mb-3">{item.icon}</div>
+                <h4 className="font-black text-navy uppercase text-sm mb-1">{item.title}</h4>
+                <p className="text-xs font-bold text-navy/50">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* Pros & Cons Section - Like a scoreboard */}
+      <Section id="pros-cons" title="AI: LỢI HẠI RA SAO?" subtitle="CÂN ĐONG ĐO ĐẾM" className="bg-[#F4F4F9]">
+        <div className="grid md:grid-cols-2 gap-10">
+          {/* Lợi ích */}
+          <div className="bg-emerald-50 student-border rounded-[2.5rem] p-10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:rotate-12 transition-transform">
+              <Lightbulb className="w-24 h-24 text-emerald-600" />
+            </div>
+            <h3 className="text-3xl font-black mb-8 flex items-center gap-3">
+              <span className="p-2 bg-emerald-400 border-2 border-navy rounded-xl">👍</span>
+              ĐƯỢC GÌ NÈ?
+            </h3>
+            <ul className="space-y-6 relative z-10">
               {[
-                { title: "Machine Learning", desc: "Máy tính học từ dữ liệu để cải thiện hiệu suất mà không cần lập trình rõ ràng." },
-                { title: "Natural Language", desc: "Xử lý và hiểu ngôn ngữ con người như các trợ lý ảo Siri, ChatGPT." },
-                { title: "Computer Vision", desc: "Nhận diện hình ảnh và video, nền tảng cho xe tự lái." },
-                { title: "Expert Systems", desc: "Mô phỏng khả năng ra quyết định của các chuyên gia trong một lĩnh vực." },
+                { title: "Gia sư tận tâm", desc: "Giải thích bài khó bất kể ngày đêm." },
+                { title: "Sáng tạo vô đối", desc: "Gợi ý ý tưởng vẽ tranh, viết văn siêu hay." },
+                { title: "Bí kíp tiếng Anh", desc: "Luyện nói, dịch thuật chuẩn không cần chỉnh." },
               ].map((item, i) => (
-                <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-md transition-shadow">
-                  <h4 className="font-bold text-indigo-600 mb-2">{item.title}</h4>
-                  <p className="text-sm text-slate-500">{item.desc}</p>
+                <li key={i} className="flex gap-4">
+                  <div className="w-6 h-6 bg-emerald-400 border-2 border-navy rounded-full shrink-0 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-lg">{item.title}</h4>
+                    <p className="font-bold text-navy/60">{item.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Tác hại */}
+          <div className="bg-rose-50 student-border rounded-[2.5rem] p-10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:-rotate-12 transition-transform">
+              <AlertTriangle className="w-24 h-24 text-rose-600" />
+            </div>
+            <h3 className="text-3xl font-black mb-8 flex items-center gap-3">
+              <span className="p-2 bg-rose-400 border-2 border-navy rounded-xl">👎</span>
+              CẨN THẬN NHA!
+            </h3>
+            <ul className="space-y-6 relative z-10">
+              {[
+                { title: "Lười suy nghĩ", desc: "Quá phụ thuộc AI khiến não mình 'mọc rêu'." },
+                { title: "AI hay chém gió", desc: "Nhiều khi thông tin sai bét nhè đó nhen." },
+                { title: "Bảo mật thông tin", desc: "Đừng dại mà khai tên tuổi, địa chỉ cho AI." },
+              ].map((item, i) => (
+                <li key={i} className="flex gap-4">
+                  <div className="w-6 h-6 bg-rose-400 border-2 border-navy rounded-full shrink-0 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-lg">{item.title}</h4>
+                    <p className="font-bold text-navy/60">{item.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+      {/* Guide Section */}
+      <Section id="guide" title="BÍ KÍP CHINH PHỤC AI" subtitle="MẸO CỰC HAY">
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-navy rounded-[3rem] p-10 md:p-16 text-white student-border student-shadow relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand/20 blur-[80px]" />
+            <h3 className="text-4xl font-display font-black mb-8 leading-tight">LÀM SAO ĐỂ TRỞ THÀNH <br/><span className="text-brand">"CAO THỦ PROMPT"?</span></h3>
+            
+            <div className="grid sm:grid-cols-2 gap-8 relative z-10">
+              <div className="p-6 bg-white/10 rounded-3xl border-2 border-white/20">
+                <div className="text-3xl mb-4">🎭</div>
+                <h5 className="text-xl font-black mb-2 text-brand uppercase">Giao Vai Trò</h5>
+                <p className="font-bold opacity-70">Hãy thử: "Bạn hãy là một giáo viên dạy Lý lớp 9, hãy giải thích công thức..."</p>
+              </div>
+              <div className="p-6 bg-white/10 rounded-3xl border-2 border-white/20">
+                <div className="text-3xl mb-4">📍</div>
+                <h5 className="text-xl font-black mb-2 text-brand uppercase">Cụ thể hóa</h5>
+                <p className="font-bold opacity-70">Đừng chỉ bảo "Viết văn", hãy nói "Viết văn kể chuyện dài 200 chữ có dùng từ..."</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-brand student-border rounded-[3rem] p-10 flex flex-col justify-center items-center text-center student-shadow">
+            <ShieldCheck className="w-20 h-20 text-navy mb-6" />
+            <h4 className="text-2xl font-black mb-4 uppercase">AN TOÀN LÀ TRÊN HẾT!</h4>
+            <p className="font-bold text-navy/70 mb-8 italic">"AI như con dao hai lưỡi, dùng khéo thì giỏi, dùng dở thì nguy!"</p>
+            <div className="space-y-3 w-full">
+              {["Tuyệt đối không đưa mật khẩu cá nhân", "Kiểm tra kỹ trước khi chép bài", "Hỏi ý kiến thầy cô, ba mẹ"].map((txt, i) => (
+                <div key={i} className="bg-white/50 py-2 border-2 border-navy rounded-xl text-xs font-black">
+                  ✅ {txt}
                 </div>
               ))}
             </div>
           </div>
-          <div className="bg-indigo-600 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">
-            <BookOpen className="w-12 h-12 opacity-50 mb-8" />
-            <div>
-              <blockquote className="text-2xl font-serif italic mb-6">
-                "AI là 'điện' mới. Nó sẽ làm thay đổi mọi ngành công nghiệp giống như điện đã làm cách đây 100 năm."
-              </blockquote>
-              <p className="font-bold text-indigo-200">— Andrew Ng</p>
-            </div>
-          </div>
         </div>
       </Section>
 
-      {/* 2. Bento Grid Section */}
-      <Section id="pros-cons" title="Lợi ích & Thách thức" className="bg-slate-50">
-        <div className="grid md:grid-cols-3 gap-6 auto-rows-[240px]">
-          {/* Main Benefit Block */}
-          <div className="md:col-span-2 row-span-2 bg-indigo-600 rounded-[2.5rem] p-10 text-white flex flex-col justify-between group overflow-hidden relative">
-            <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-1000" />
-            <div>
-              <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-md">
-                <Zap className="w-8 h-8" />
-              </div>
-              <h3 className="text-4xl font-serif font-bold mb-4">Cách mạng năng suất</h3>
-              <p className="text-indigo-100 text-lg max-w-md leading-relaxed">
-                Xử lý dữ liệu, viết mã, tạo nội dung trong tích tắc. AI giúp giải phóng con người khỏi những tác vụ lặp đi lặp lại để tập trung vào sự sáng tạo cốt lõi.
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <span className="px-4 py-2 bg-white/10 rounded-full text-xs font-bold uppercase">+300% Hiệu quả</span>
-              <span className="px-4 py-2 bg-white/10 rounded-full text-xs font-bold uppercase">Xử lý 24/7</span>
-            </div>
-          </div>
-
-          {/* Small Benefit Block 1 */}
-          <div className="bg-emerald-500 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">
-            <Lightbulb className="w-10 h-10 mb-4" />
-            <div>
-              <h4 className="text-xl font-bold mb-2">Y tế thông minh</h4>
-              <p className="text-emerald-50 opacity-80 text-sm">Chẩn đoán bệnh sớm và phát hiện ung thư với độ chính xác vượt tầm mắt người.</p>
-            </div>
-          </div>
-
-          {/* Small Benefit Block 2 */}
-          <div className="bg-sky-500 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">
-            <BookOpen className="w-10 h-10 mb-4" />
-            <div>
-              <h4 className="text-xl font-bold mb-2">Cá nhân hóa giáo dục</h4>
-              <p className="text-sky-50 opacity-80 text-sm">Lộ trình học tập được thiết kế riêng cho từng cá nhân dựa trên năng lực.</p>
-            </div>
-          </div>
-
-          {/* Danger Block */}
-          <div className="md:col-span-3 bg-white border border-slate-200 rounded-[2.5rem] p-10 flex flex-col md:flex-row gap-12 items-center">
-            <div className="p-6 bg-rose-50 rounded-3xl shrink-0">
-              <AlertTriangle className="w-12 h-12 text-rose-500" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-3xl font-bold text-slate-900 mb-4">Đối mặt với rủi ro</h3>
-              <div className="grid sm:grid-cols-3 gap-8">
-                <div>
-                  <p className="font-bold text-slate-900 mb-1">Mất việc làm</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">Nhiều công việc lao động tay chân và văn phòng đang bị thay thế.</p>
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900 mb-1">Tin giả & Deepfake</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">Công cụ AI tạo ra nội dung giả mạo tinh vi gây nhiễu loạn xã hội.</p>
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900 mb-1">Bảo mật dữ liệu</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">Thông tin nhạy cảm có thể bị rò rỉ qua các mô hình AI trực tuyến.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* 3. Hướng dẫn sử dụng đúng */}
-      <Section id="guide" title="Sử dụng AI đúng cách">
-        <div className="bg-slate-950 text-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
-          {/* Overlay glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/20 blur-[120px] -z-0" />
-          
-          <div className="relative z-10 grid lg:grid-cols-2 gap-16">
-            <div>
-              <ShieldCheck className="w-16 h-16 text-indigo-400 mb-8" />
-              <h3 className="text-4xl font-serif font-bold mb-6 text-white">Nguyên tắc "3 KHÔNG" khi dùng AI</h3>
-              <p className="text-slate-400 text-lg mb-10">
-                Làm chủ AI không chỉ là biết cách ra lệnh, mà còn là biết cách bảo vệ bản thân và giữ vững đạo đức nghề nghiệp.
-              </p>
-              
-              <div className="space-y-4">
-                {[
-                  "KHÔNG chia sẻ thông tin cá nhân, mật khẩu, dữ liệu công ty nhạy cảm.",
-                  "KHÔNG tin tưởng hoàn toàn vào kết quả của AI mà không kiểm chứng.",
-                  "KHÔNG sử dụng AI để tạo ra các nội dung gây hại hoặc lừa đảo."
-                ].map((text, i) => (
-                  <div key={i} className="flex gap-4 items-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center font-bold text-indigo-400">
-                      {i + 1}
-                    </div>
-                    <span className="font-medium">{text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-8">
-              <h4 className="text-xl font-bold text-indigo-400 flex items-center gap-2">
-                <Menu className="w-5 h-5 text-indigo-400" />
-                Mẹo tối ưu câu lệnh (Prompt)
-              </h4>
-              <div className="grid gap-6">
-                {[
-                  { title: "Giao vai trò", text: "Hãy bắt đầu bằng: 'Bạn là một chuyên gia về...'" },
-                  { title: "Cung cấp ngữ cảnh", text: "Giải thích rõ mục đích và đối tượng mục tiêu của nội dung." },
-                  { title: "Nêu rõ định dạng", text: "Yêu cầu AI trả về dưới dạng bảng, gạch đầu dòng, hoặc đoạn văn ngắn." }
-                ].map((tip, i) => (
-                  <div key={i} className="group">
-                    <p className="text-indigo-300 font-bold mb-1 opacity-60">#{i + 1}</p>
-                    <h5 className="text-lg font-bold mb-2 group-hover:text-indigo-400 transition-colors text-white">{tip.title}</h5>
-                    <p className="text-slate-400">{tip.text}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 pt-8 border-t border-white/10">
-                <p className="text-sm font-medium text-slate-500 italic">"Hãy đối xử với AI như một trợ lý thông minh nhưng cần sự giám sát của bạn."</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* 4. Bài trắc nghiệm */}
-      <Section id="quiz" title="Kiểm tra mức độ sử dụng AI của bạn">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xl text-slate-600 mb-12">
-            Bạn đang ở đâu trong cuộc cách mạng công nghệ này? Hãy trả lời 5 câu hỏi dưới đây để biết kết quả nhé!
-          </p>
-          <div className="text-left">
-            <AIQuiz />
-          </div>
+      {/* Quiz Section */}
+      <Section id="quiz" title="BẠN HIỂU AI ĐẾN ĐÂU?" subtitle="THỬ THÁCH CUỐI CÙNG" className="bg-sky-50">
+        <div className="max-w-4xl mx-auto">
+          <AIQuiz />
         </div>
       </Section>
 
       {/* Footer */}
-      <footer className="py-20 border-t border-slate-100 px-6">
+      <footer className="py-20 border-t-4 border-navy bg-white px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
           <div className="flex flex-col items-center md:items-start gap-4">
-            <div className="flex items-center gap-2">
-              <div className="p-2 bg-slate-900 rounded-lg">
-                <Brain className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-navy rounded-xl">
+                <Brain className="w-6 h-6 text-brand" />
               </div>
-              <span className="font-bold text-lg tracking-tight">AI HANDBOOK</span>
+              <span className="font-display font-black text-2xl text-navy uppercase">AI FOR STUDENTS</span>
             </div>
-            <p className="text-slate-400 text-sm max-w-xs text-center md:text-left">
-              Trang web giáo dục vì một cộng đồng sử dụng AI thông minh và có trách nhiệm.
+            <p className="text-navy/50 font-bold max-w-xs text-center md:text-left">
+              Trang web giúp học sinh Việt Nam làm chủ trí tuệ nhân tạo một cách an toàn và thông minh.
             </p>
           </div>
           
-          <div className="flex gap-12 text-sm font-medium text-slate-500">
-            <div className="flex flex-col gap-3">
-              <span className="text-slate-900 font-bold uppercase tracking-widest text-[10px]">Tài nguyên</span>
-              <a href="#" className="hover:text-indigo-600">Blog cá nhân</a>
-              <a href="#" className="hover:text-indigo-600">Khóa học AI</a>
+          <div className="flex gap-16">
+            <div className="flex flex-col gap-4">
+              <span className="font-black text-navy uppercase text-xs tracking-widest">HỌC TẬP</span>
+              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Tài liệu AI</a>
+              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Khóa học</a>
             </div>
-            <div className="flex flex-col gap-3">
-              <span className="text-slate-900 font-bold uppercase tracking-widest text-[10px]">Cộng đồng</span>
-              <a href="#" className="hover:text-indigo-600">Facebook Group</a>
-              <a href="#" className="hover:text-indigo-600">Discord</a>
+            <div className="flex flex-col gap-4">
+              <span className="font-black text-navy uppercase text-xs tracking-widest">LIÊN HỆ</span>
+              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Fanpage</a>
+              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Hỗ trợ</a>
             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-slate-50 text-center">
-          <p className="text-xs text-slate-400">© 2024 AI Handbook Project. Hướng tới tương lai số văn minh.</p>
+        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t-2 border-navy/10 text-center">
+          <p className="text-xs font-black text-navy/40 uppercase tracking-widest">© 2026 AI FOR STUDENTS PROJECT. MADE WITH ❤️ FOR EDUCATION.</p>
         </div>
       </footer>
     </div>

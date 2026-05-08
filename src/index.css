@@ -1,18 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lexend", sans-serif;
+  
+  --color-brand: #C9FF4D;
+  --color-brand-dark: #A8D61B;
+  --color-navy: #0A1D37;
+  --color-sky: #E7F6FD;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
   }
+  body {
+    @apply bg-[#FDFDF7] text-navy;
+  }
 }
 
 @layer utilities {
+  .student-border {
+    border-width: 3px;
+    border-color: var(--color-navy);
+  }
+  .student-shadow {
+    box-shadow: 6px 6px 0px 0px var(--color-navy);
+  }
+  .student-shadow-sm {
+    box-shadow: 3px 3px 0px 0px var(--color-navy);
+  }
+  .student-card {
+    background-color: white;
+    border-width: 3px;
+    border-color: var(--color-navy);
+    border-radius: 1.5rem; /* 24px */
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0px 0px var(--color-navy);
+  }
+  .burst {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -21,12 +50,6 @@
   }
   .animate-float-slow {
     animation: float 8s ease-in-out 1s infinite;
-  }
-  .glass {
-    @apply bg-white/40 backdrop-blur-xl border border-white/20;
-  }
-  .glass-dark {
-    @apply bg-slate-900/40 backdrop-blur-xl border border-white/10;
   }
 }
 
