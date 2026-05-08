@@ -174,6 +174,34 @@ const AIQuiz = () => {
         { text: "Hơi hơi, nghe loáng thoáng đâu đó", points: 6 },
         { text: "Ủa, AI mà cũng sai được hả?", points: 10 },
       ]
+    },
+    {
+      id: 4,
+      text: "Bạn đã từng nghe đến 'Prompt' (Kỹ thuật đặt câu hỏi) chưa?",
+      options: [
+        { text: "Nghe rồi và đang luyện tập nè!", points: 10 },
+        { text: "Có nghe qua nhưng chưa thử", points: 7 },
+        { text: "Chả biết nó là cái gì luôn", points: 3 },
+        { text: "Chưa bao giờ nghe", points: 0 },
+      ]
+    },
+    {
+      id: 5,
+      text: "Khi dùng AI viết văn, bạn có sửa lại theo ý mình không?",
+      options: [
+        { text: "Chép y hệt, lười lắm!", points: 10 },
+        { text: "Sửa sơ sơ vài chỗ", points: 7 },
+        { text: "Có chứ, AI chỉ nháp hộ thôi", points: 3 },
+      ]
+    },
+    {
+      id: 6,
+      text: "Bạn có tin AI sẽ trở thành 'bạn thân' của học sinh không?",
+      options: [
+        { text: "Chắc chắn, không AI là chịu chết!", points: 10 },
+        { text: "Có thể, nhưng chỉ là công cụ thôi", points: 6 },
+        { text: "Không tin, thầy cô vẫn là nhất", points: 2 },
+      ]
     }
   ];
 
@@ -194,12 +222,12 @@ const AIQuiz = () => {
   };
 
   const getEvaluation = () => {
-    if (totalScore >= 25) return {
+    if (totalScore >= 45) return {
       title: "Siêu nhân Công nghệ 🚀",
       desc: "Bạn dùng AI như một trợ lý đắc lực luôn! Nhưng hãy nhớ tự suy nghĩ nhiều hơn để não bộ phát triển nhé.",
       color: "bg-brand"
     };
-    if (totalScore >= 15) return {
+    if (totalScore >= 25) return {
       title: "Nhà Thám hiểm Tài năng 🕵️",
       desc: "Bạn đang khám phá AI rất đúng cách đó. Hãy học thêm các mẹo đặt câu hỏi để AI giúp bạn tốt hơn nha.",
       color: "bg-sky-200"
