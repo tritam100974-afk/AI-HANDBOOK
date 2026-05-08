@@ -514,34 +514,28 @@ export default function App() {
 
       {/* Footer */}
       <footer className="py-20 border-t-4 border-navy bg-white px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="flex flex-col items-center md:items-start gap-4">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center gap-10">
+          <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-navy rounded-xl">
                 <Brain className="w-6 h-6 text-brand" />
               </div>
-              <span className="font-display font-black text-2xl text-navy uppercase">AI FOR STUDENTS</span>
+              <span className="font-display font-black text-2xl text-navy uppercase tracking-tighter">AI FOR STUDENTS</span>
             </div>
-            <p className="text-navy/50 font-bold max-w-xs text-center md:text-left">
-              Trang web giúp học sinh Việt Nam làm chủ trí tuệ nhân tạo một cách an toàn và thông minh.
+            <p className="text-navy font-black text-xl md:text-2xl uppercase tracking-tight">
+              Trường THCS Lý Tự Trọng <br/> <span className="text-navy/70 text-lg">P. An Hội Đông</span>
             </p>
           </div>
           
-          <div className="flex gap-16">
-            <div className="flex flex-col gap-4">
-              <span className="font-black text-navy uppercase text-xs tracking-widest">HỌC TẬP</span>
-              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Tài liệu AI</a>
-              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Khóa học</a>
+          <div className="flex flex-col gap-3">
+            <div className="px-6 py-3 bg-brand student-border rounded-2xl student-shadow-sm inline-block">
+              <p className="font-black text-navy text-lg">Made by Nguyễn Gia Bảo - Lớp 8/2</p>
             </div>
-            <div className="flex flex-col gap-4">
-              <span className="font-black text-navy uppercase text-xs tracking-widest">LIÊN HỆ</span>
-              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Fanpage</a>
-              <a href="#" className="font-bold text-navy/60 hover:text-brand-dark">Hỗ trợ</a>
-            </div>
+            <p className="font-bold text-navy/60 text-sm">Instructor: <span className="text-navy font-black">Nguyễn Tri Thị Tâm</span></p>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t-2 border-navy/10 text-center">
-          <p className="text-xs font-black text-navy/40 uppercase tracking-widest">© 2026 AI FOR STUDENTS PROJECT. MADE WITH ❤️ FOR EDUCATION.</p>
+        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t-2 border-navy/10 text-center">
+          <p className="text-[10px] font-black text-navy/30 uppercase tracking-[0.3em]">© 2026 AI FOR STUDENTS PROJECT. ALL RIGHTS RESERVED.</p>
         </div>
       </footer>
     </div>
