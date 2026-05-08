@@ -265,61 +265,88 @@ const AIQuiz = () => {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900 relative">
+      {/* Background Atmosphere */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-50/50 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[0%] right-[-5%] w-[40%] h-[40%] bg-sky-50/50 rounded-full blur-[100px]" />
+      </div>
+
       <Navbar />
 
-      {/* Hero Section */}
-      <section id="header" className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-        {/* Background Gradients */}
-        <div className="absolute top-0 right-0 -z-10 w-[600px] h-[600px] bg-indigo-50 rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 -z-10 w-[400px] h-[400px] bg-sky-50 rounded-full blur-3xl opacity-60 translate-y-1/4 -translate-x-1/4" />
+      {/* Hero Section - Revamped */}
+      <section id="header" className="relative pt-40 pb-32 md:pt-60 md:pb-48 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 relative">
+          {/* Floating Data Chips - Fills the "Empty" space */}
+          <div className="absolute inset-0 pointer-events-none hidden lg:block">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 1 }}
+              className="absolute top-0 right-[15%] glass px-6 py-4 rounded-2xl shadow-xl shadow-indigo-100/50 animate-float flex items-center gap-3"
+            >
+              <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white">
+                <Brain className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest leading-none mb-1">Neural Net</p>
+                <p className="text-sm font-bold text-slate-800">Processing Data...</p>
+              </div>
+            </motion.div>
 
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6">
-              <Zap className="w-3 h-3" />
-              <span>Khám phá công nghệ tương lai</span>
-            </div>
-            <h1 className="font-serif text-6xl md:text-7xl font-bold leading-[1.1] mb-8 text-slate-900">
-              Mọi điều bạn cần biết về <span className="text-indigo-600 italic">AI.</span>
-            </h1>
-            <p className="text-xl text-slate-500 leading-relaxed mb-10 max-w-lg">
-              Trí tuệ nhân tạo đang định hình lại cách chúng ta sống và làm việc. 
-              Hãy cùng tìm hiểu cách làm chủ công cụ mạnh mẽ này một cách có trách nhiệm.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#intro" className="px-8 py-4 bg-indigo-600 text-white rounded-full font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-2 group">
-                Bắt đầu học ngay
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#quiz" className="px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-full font-bold hover:bg-slate-50 transition-all">
-                Làm trắc nghiệm
-              </a>
-            </div>
-          </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.7, duration: 1 }}
+              className="absolute bottom-10 left-[5%] glass px-6 py-4 rounded-full shadow-xl shadow-sky-100/50 animate-float-delayed flex items-center gap-3"
+            >
+              <Zap className="w-5 h-5 text-amber-500" />
+              <span className="text-sm font-bold text-slate-700">Real-time Analysis</span>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-indigo-200/50">
-              <img 
-                src="/src/assets/images/regenerated_image_1778226051954.jpg" 
-                alt="AI Visualization" 
-                className="w-full aspect-square object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            {/* Decor */}
-            <div className="absolute -top-6 -right-6 w-32 h-32 bg-indigo-600/10 rounded-full blur-xl" />
-            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-sky-600/10 rounded-full blur-2xl" />
-          </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.9, duration: 1 }}
+              className="absolute top-40 left-[10%] glass-dark px-5 py-3 rounded-2xl shadow-2xl animate-float-slow text-white flex flex-col gap-1"
+            >
+              <div className="flex gap-1">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-slate-700 rounded-full" />
+                <div className="w-2 h-2 bg-slate-700 rounded-full" />
+              </div>
+              <p className="text-[10px] font-mono tracking-tighter opacity-70">GEN_COMPLETED v4.0</p>
+            </motion.div>
+          </div>
+
+          <div className="flex flex-col items-center text-center max-w-5xl mx-auto relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-[0.2em] mb-10">
+                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
+                <span>AI Handbook Project 2024</span>
+              </div>
+              <h1 className="font-serif text-7xl md:text-9xl font-bold leading-[0.85] mb-10 text-slate-900 tracking-tightest">
+                Tương lai <br /> 
+                <span className="text-indigo-600 italic">bắt đầu</span> từ đây.
+              </h1>
+              <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-12 max-w-2xl mx-auto font-light">
+                Trí tuệ nhân tạo không thay thế con người, nhưng con người <span className="text-slate-900 font-medium">biết sử dụng AI</span> sẽ thay thế những người không biết.
+              </p>
+              <div className="flex flex-wrap justify-center gap-6">
+                <a href="#intro" className="px-10 py-5 bg-indigo-600 text-white rounded-2xl font-bold shadow-2xl shadow-indigo-200 hover:bg-slate-900 hover:-translate-y-1 transition-all flex items-center gap-3 group">
+                  Khám phá ngay
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <a href="#quiz" className="px-10 py-5 bg-white text-slate-900 border border-slate-200 rounded-2xl font-bold hover:border-indigo-600 hover:-translate-y-1 transition-all">
+                  Làm trắc nghiệm
+                </a>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -345,7 +372,7 @@ export default function App() {
               ))}
             </div>
           </div>
-          <div className="bg-indigo-600 rounded-[2rem] p-8 text-white flex flex-col justify-between">
+          <div className="bg-indigo-600 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">
             <BookOpen className="w-12 h-12 opacity-50 mb-8" />
             <div>
               <blockquote className="text-2xl font-serif italic mb-6">
@@ -357,59 +384,67 @@ export default function App() {
         </div>
       </Section>
 
-      {/* 2. Lợi ích & Tác hại */}
-      <Section id="pros-cons" title="Hai mặt của đồng xu" className="bg-slate-50">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Lợi ích */}
-          <div className="bg-white p-10 rounded-[2rem] shadow-sm border border-slate-100">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-emerald-100 rounded-2xl">
-                <Lightbulb className="w-8 h-8 text-emerald-600" />
+      {/* 2. Bento Grid Section */}
+      <Section id="pros-cons" title="Lợi ích & Thách thức" className="bg-slate-50">
+        <div className="grid md:grid-cols-3 gap-6 auto-rows-[240px]">
+          {/* Main Benefit Block */}
+          <div className="md:col-span-2 row-span-2 bg-indigo-600 rounded-[2.5rem] p-10 text-white flex flex-col justify-between group overflow-hidden relative">
+            <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-1000" />
+            <div>
+              <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-md">
+                <Zap className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-bold">Lợi ích vượt trội</h3>
+              <h3 className="text-4xl font-serif font-bold mb-4">Cách mạng năng suất</h3>
+              <p className="text-indigo-100 text-lg max-w-md leading-relaxed">
+                Xử lý dữ liệu, viết mã, tạo nội dung trong tích tắc. AI giúp giải phóng con người khỏi những tác vụ lặp đi lặp lại để tập trung vào sự sáng tạo cốt lõi.
+              </p>
             </div>
-            <ul className="space-y-6">
-              {[
-                { title: "Tăng năng suất", desc: "Xử lý các công việc lặp đi lặp lại chỉ trong vài giây." },
-                { title: "Phân tích dữ liệu lớn", desc: "Tìm thấy những quy luật mà mắt người không thể nhận ra." },
-                { title: "Hỗ trợ 24/7", desc: "Các chatbot và trợ lý ảo luôn sẵn sàng phục vụ bất kỳ lúc nào." },
-                { title: "Y tế & Nghiên cứu", desc: "Giúp chẩn đoán bệnh sớm và phát triển thuốc nhanh hơn." },
-              ].map((item, i) => (
-                <li key={i} className="flex gap-4 items-start">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0 mt-1" />
-                  <div>
-                    <h4 className="font-bold text-slate-900">{item.title}</h4>
-                    <p className="text-slate-500">{item.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className="flex gap-4">
+              <span className="px-4 py-2 bg-white/10 rounded-full text-xs font-bold uppercase">+300% Hiệu quả</span>
+              <span className="px-4 py-2 bg-white/10 rounded-full text-xs font-bold uppercase">Xử lý 24/7</span>
+            </div>
           </div>
 
-          {/* Tác hại */}
-          <div className="bg-white p-10 rounded-[2rem] shadow-sm border border-slate-100">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-rose-100 rounded-2xl">
-                <AlertTriangle className="w-8 h-8 text-rose-600" />
-              </div>
-              <h3 className="text-2xl font-bold">Rủi ro & Tác hại</h3>
+          {/* Small Benefit Block 1 */}
+          <div className="bg-emerald-500 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">
+            <Lightbulb className="w-10 h-10 mb-4" />
+            <div>
+              <h4 className="text-xl font-bold mb-2">Y tế thông minh</h4>
+              <p className="text-emerald-50 opacity-80 text-sm">Chẩn đoán bệnh sớm và phát hiện ung thư với độ chính xác vượt tầm mắt người.</p>
             </div>
-            <ul className="space-y-6">
-              {[
-                { title: "Thay thế việc làm", desc: "Tự động hóa có thể khiến nhiều công việc truyền thống biến mất." },
-                { title: "Sai lệch dữ liệu", desc: "AI có thể đưa ra kết quả phân biệt đối xử nếu dữ liệu đầu vào bị lỗi." },
-                { title: "Deepfakes & Tin giả", desc: "Tạo ra hình ảnh/video giả mạo cực kỳ chân thực để lừa đảo." },
-                { title: "Quyền riêng tư", desc: "Nguy cơ rò rỉ thông tin cá nhân qua các mô hình ngôn ngữ lớn." },
-              ].map((item, i) => (
-                <li key={i} className="flex gap-4 items-start">
-                  <XCircle className="w-6 h-6 text-rose-500 shrink-0 mt-1" />
-                  <div>
-                    <h4 className="font-bold text-slate-900">{item.title}</h4>
-                    <p className="text-slate-500">{item.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+          </div>
+
+          {/* Small Benefit Block 2 */}
+          <div className="bg-sky-500 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">
+            <BookOpen className="w-10 h-10 mb-4" />
+            <div>
+              <h4 className="text-xl font-bold mb-2">Cá nhân hóa giáo dục</h4>
+              <p className="text-sky-50 opacity-80 text-sm">Lộ trình học tập được thiết kế riêng cho từng cá nhân dựa trên năng lực.</p>
+            </div>
+          </div>
+
+          {/* Danger Block */}
+          <div className="md:col-span-3 bg-white border border-slate-200 rounded-[2.5rem] p-10 flex flex-col md:flex-row gap-12 items-center">
+            <div className="p-6 bg-rose-50 rounded-3xl shrink-0">
+              <AlertTriangle className="w-12 h-12 text-rose-500" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-3xl font-bold text-slate-900 mb-4">Đối mặt với rủi ro</h3>
+              <div className="grid sm:grid-cols-3 gap-8">
+                <div>
+                  <p className="font-bold text-slate-900 mb-1">Mất việc làm</p>
+                  <p className="text-sm text-slate-500 leading-relaxed">Nhiều công việc lao động tay chân và văn phòng đang bị thay thế.</p>
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 mb-1">Tin giả & Deepfake</p>
+                  <p className="text-sm text-slate-500 leading-relaxed">Công cụ AI tạo ra nội dung giả mạo tinh vi gây nhiễu loạn xã hội.</p>
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 mb-1">Bảo mật dữ liệu</p>
+                  <p className="text-sm text-slate-500 leading-relaxed">Thông tin nhạy cảm có thể bị rò rỉ qua các mô hình AI trực tuyến.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </Section>
